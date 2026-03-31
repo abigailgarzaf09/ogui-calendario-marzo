@@ -7,116 +7,146 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --cream: #FAF8F3; --warm-white: #FFFDF9; --ink: #1A1714; --ink-light: #5A5550;
-    --ink-muted: #9A9490; --gold: #C9A96E; --gold-light: #F0E4CC; --gold-pale: #FBF5EA;
-    --reel-color: #2D4A3E; --reel-bg: #E8F0ED; --post-color: #3D2E5E; --post-bg: #EDE8F5;
-    --trend-color: #7A3B1E; --trend-bg: #F5E8DF; --border: #E8E2D8;
+    --cream:#FAF8F3;--warm-white:#FFFDF9;--ink:#1A1714;--ink-light:#5A5550;
+    --ink-muted:#9A9490;--gold:#C9A96E;--gold-light:#F0E4CC;--gold-pale:#FBF5EA;
+    --reel-color:#2D4A3E;--reel-bg:#E8F0ED;--post-color:#3D2E5E;--post-bg:#EDE8F5;
+    --trend-color:#7A3B1E;--trend-bg:#F5E8DF;--border:#E8E2D8;
+    --published-bg:#E8F0ED;--published-color:#2D4A3E;
+    --progress-bg:#FBF5EA;--progress-color:#8A5E1A;
+    --draft-bg:#F0EEF8;--draft-color:#5A4A8A;
+    --ready-bg:#EAF4FF;--ready-color:#1A5A8A;
+    --pending-bg:#F5F5F5;--pending-color:#888;
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--cream); color: var(--ink); font-family: 'DM Sans', sans-serif; font-weight: 300; min-height: 100vh; }
-  header { background: var(--ink); padding: 3rem 4rem 2.5rem; position: relative; overflow: hidden; }
-  header::before { content: ''; position: absolute; top: -60px; right: -60px; width: 300px; height: 300px; border-radius: 50%; border: 1px solid rgba(201,169,110,0.15); }
-  header::after { content: ''; position: absolute; bottom: -80px; left: 40%; width: 200px; height: 200px; border-radius: 50%; border: 1px solid rgba(201,169,110,0.1); }
-  .header-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 2rem; }
-  .brand { font-family: 'Playfair Display', serif; font-size: 3.5rem; color: #fff; letter-spacing: -0.02em; line-height: 1; }
-  .brand span { color: var(--gold); }
-  .header-meta { text-align: right; }
-  .header-meta p { font-size: 0.75rem; color: rgba(255,255,255,0.4); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.25rem; }
-  .header-meta strong { font-size: 0.85rem; color: rgba(255,255,255,0.7); font-weight: 400; }
-  .header-subtitle { margin-top: 1.5rem; font-size: 0.8rem; color: rgba(255,255,255,0.35); letter-spacing: 0.12em; text-transform: uppercase; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.25rem; display: flex; gap: 2rem; flex-wrap: wrap; }
-  .header-subtitle span { display: flex; align-items: center; gap: 0.5rem; }
-  .dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
-  .dot-reel { background: #6BBFA0; } .dot-post { background: #A98FD8; } .dot-trend { background: #E0A87A; }
-  main { max-width: 960px; margin: 0 auto; padding: 3rem 2rem 5rem; }
-  .week { margin-bottom: 3.5rem; }
-  .week-header { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 1.25rem; }
-  .week-number { font-family: 'Playfair Display', serif; font-size: 0.75rem; color: var(--gold); letter-spacing: 0.15em; text-transform: uppercase; }
-  .week-title { font-size: 0.7rem; color: var(--ink-muted); letter-spacing: 0.1em; text-transform: uppercase; }
-  .week-line { flex: 1; height: 1px; background: var(--border); }
-  .card { background: var(--warm-white); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 10px; display: grid; grid-template-columns: 110px 1fr; overflow: hidden; transition: box-shadow 0.2s ease, transform 0.2s ease; }
-  .card:hover { box-shadow: 0 4px 20px rgba(26,23,20,0.07); transform: translateY(-1px); }
-  .card-day { background: var(--gold-pale); border-right: 1px solid var(--gold-light); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.25rem 0.75rem; text-align: center; }
-  .day-name { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 0.3rem; }
-  .day-date { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--ink); line-height: 1; }
-  .day-month { font-size: 0.65rem; color: var(--ink-muted); margin-top: 0.2rem; letter-spacing: 0.08em; text-transform: uppercase; }
-  .card-body { padding: 1.1rem 1.4rem; }
-  .card-top { display: flex; align-items: center; gap: 8px; margin-bottom: 0.6rem; flex-wrap: wrap; }
-  .badge { font-size: 0.6rem; font-weight: 500; padding: 3px 10px; border-radius: 20px; letter-spacing: 0.08em; text-transform: uppercase; }
-  .badge-reel { background: var(--reel-bg); color: var(--reel-color); }
-  .badge-post { background: var(--post-bg); color: var(--post-color); }
-  .badge-trend { background: var(--trend-bg); color: var(--trend-color); }
-  .role { font-size: 0.6rem; color: var(--ink-muted); padding: 3px 10px; border-radius: 20px; border: 1px solid var(--border); letter-spacing: 0.06em; text-transform: uppercase; }
-  .ads-tag { font-size: 0.6rem; color: #7A3B1E; background: #FDEEE6; padding: 3px 10px; border-radius: 20px; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 500; }
-  .card-title { font-size: 0.95rem; font-weight: 500; color: var(--ink); margin-bottom: 0.7rem; line-height: 1.4; }
-  .card-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem 1rem; }
-  .field-label { font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.2rem; }
-  .field-value { font-size: 0.78rem; color: var(--ink-light); line-height: 1.5; font-style: italic; }
-  .field-value.no-italic { font-style: normal; }
-  .trend-note { margin-top: 0.75rem; font-size: 0.72rem; color: var(--trend-color); background: var(--trend-bg); padding: 0.4rem 0.75rem; border-radius: 6px; border-left: 2px solid var(--gold); }
-  .strategy { margin-top: 4rem; padding-top: 3rem; border-top: 1px solid var(--border); }
-  .strategy-header { margin-bottom: 2rem; }
-  .strategy-header h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--ink); margin-bottom: 0.4rem; }
-  .strategy-header p { font-size: 0.82rem; color: var(--ink-muted); }
-  .strategy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 2rem; }
-  .s-card { background: var(--warm-white); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem 1.4rem; }
-  .s-card-label { font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem; }
-  .s-card h3 { font-size: 0.88rem; font-weight: 500; color: var(--ink); margin-bottom: 0.6rem; line-height: 1.4; }
-  .s-card p { font-size: 0.78rem; color: var(--ink-light); line-height: 1.65; }
-  .ads-section { background: var(--ink); border-radius: 12px; padding: 1.75rem; margin-top: 1rem; }
-  .ads-section h3 { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--gold); margin-bottom: 1rem; }
-  .ads-list { display: flex; flex-direction: column; gap: 8px; }
-  .ads-item { display: flex; align-items: flex-start; gap: 12px; }
-  .ads-num { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: rgba(201,169,110,0.4); width: 20px; flex-shrink: 0; }
-  .ads-text { font-size: 0.8rem; color: rgba(255,255,255,0.75); line-height: 1.5; }
-  .ads-text strong { color: #fff; font-weight: 500; }
-  footer { text-align: center; padding: 2rem; font-size: 0.7rem; color: var(--ink-muted); letter-spacing: 0.08em; }
-  [contenteditable="true"] { outline: none; border-radius: 4px; transition: background 0.15s; }
-  [contenteditable="true"]:hover { background: rgba(201,169,110,0.08); }
-  [contenteditable="true"]:focus { background: rgba(201,169,110,0.12); box-shadow: 0 0 0 2px rgba(201,169,110,0.3); }
-  .edit-hint { font-size: 0.68rem; color: var(--gold); padding: 0.6rem 1.2rem; background: var(--gold-pale); border-radius: 8px; border: 1px solid var(--gold-light); display: inline-block; }
-  .edit-hint-wrap { text-align: center; margin-bottom: 2rem; }
-  @media (max-width: 640px) {
-    header { padding: 2rem 1.5rem; } .brand { font-size: 2.5rem; }
-    .card { grid-template-columns: 80px 1fr; } .card-fields { grid-template-columns: 1fr; }
-    .strategy-grid { grid-template-columns: 1fr; } .header-subtitle { flex-direction: column; gap: 0.5rem; }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh;}
+  header{background:var(--ink);padding:3rem 4rem 2.5rem;position:relative;overflow:hidden;}
+  header::before{content:'';position:absolute;top:-60px;right:-60px;width:300px;height:300px;border-radius:50%;border:1px solid rgba(201,169,110,0.15);}
+  header::after{content:'';position:absolute;bottom:-80px;left:40%;width:200px;height:200px;border-radius:50%;border:1px solid rgba(201,169,110,0.1);}
+  .header-top{display:flex;align-items:flex-start;justify-content:space-between;gap:2rem;}
+  .brand{font-family:'Playfair Display',serif;font-size:3.5rem;color:#fff;letter-spacing:-0.02em;line-height:1;}
+  .brand span{color:var(--gold);}
+  .header-meta{text-align:right;}
+  .header-meta p{font-size:0.75rem;color:rgba(255,255,255,0.4);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.25rem;}
+  .header-meta strong{font-size:0.85rem;color:rgba(255,255,255,0.7);font-weight:400;}
+  .header-subtitle{margin-top:1.5rem;font-size:0.75rem;color:rgba(255,255,255,0.35);letter-spacing:0.1em;text-transform:uppercase;border-top:1px solid rgba(255,255,255,0.08);padding-top:1.25rem;display:flex;gap:1.5rem;flex-wrap:wrap;align-items:center;}
+  .header-subtitle span{display:flex;align-items:center;gap:0.5rem;}
+  .dot{width:6px;height:6px;border-radius:50%;display:inline-block;flex-shrink:0;}
+  .dot-reel{background:#6BBFA0;}.dot-post{background:#A98FD8;}.dot-trend{background:#E0A87A;}
+  .scheme-pill{background:rgba(201,169,110,0.15);color:rgba(255,255,255,0.5);padding:3px 10px;border-radius:20px;font-size:0.68rem;}
+  main{max-width:980px;margin:0 auto;padding:3rem 2rem 5rem;}
+  .status-legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1.5rem;}
+  .status-pill{font-size:0.62rem;font-weight:500;padding:4px 12px;border-radius:20px;letter-spacing:0.07em;text-transform:uppercase;}
+  .s-published{background:var(--published-bg);color:var(--published-color);}
+  .s-ready{background:var(--ready-bg);color:var(--ready-color);}
+  .s-progress{background:var(--progress-bg);color:var(--progress-color);}
+  .s-draft{background:var(--draft-bg);color:var(--draft-color);}
+  .s-pending{background:var(--pending-bg);color:var(--pending-color);}
+  .edit-hint{font-size:0.66rem;color:var(--gold);padding:0.5rem 1rem;background:var(--gold-pale);border-radius:8px;border:1px solid var(--gold-light);display:inline-block;margin-bottom:1.5rem;}
+  .edit-hint-wrap{margin-bottom:0.5rem;}
+  .week{margin-bottom:3rem;}
+  .week-header{display:flex;align-items:baseline;gap:1rem;margin-bottom:1rem;}
+  .week-number{font-family:'Playfair Display',serif;font-size:0.75rem;color:var(--gold);letter-spacing:0.15em;text-transform:uppercase;}
+  .week-title{font-size:0.7rem;color:var(--ink-muted);letter-spacing:0.1em;text-transform:uppercase;}
+  .week-line{flex:1;height:1px;background:var(--border);}
+  .card{background:var(--warm-white);border:1px solid var(--border);border-radius:12px;margin-bottom:8px;display:grid;grid-template-columns:100px 1fr;overflow:hidden;transition:box-shadow 0.2s,transform 0.2s;}
+  .card:hover{box-shadow:0 4px 20px rgba(26,23,20,0.07);transform:translateY(-1px);}
+  .card.is-published{border-left:3px solid #6BBFA0;}
+  .card.is-pending{opacity:0.72;}
+  .card-day{background:var(--gold-pale);border-right:1px solid var(--gold-light);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1rem 0.5rem;text-align:center;}
+  .day-name{font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:0.25rem;}
+  .day-date{font-family:'Playfair Display',serif;font-size:1.35rem;color:var(--ink);line-height:1;}
+  .day-month{font-size:0.6rem;color:var(--ink-muted);margin-top:0.15rem;letter-spacing:0.08em;text-transform:uppercase;}
+  .card-body{padding:1rem 1.3rem;}
+  .card-top{display:flex;align-items:center;gap:7px;margin-bottom:0.55rem;flex-wrap:wrap;}
+  .badge{font-size:0.58rem;font-weight:500;padding:3px 9px;border-radius:20px;letter-spacing:0.07em;text-transform:uppercase;}
+  .badge-reel{background:var(--reel-bg);color:var(--reel-color);}
+  .badge-post{background:var(--post-bg);color:var(--post-color);}
+  .badge-trend{background:var(--trend-bg);color:var(--trend-color);}
+  .role{font-size:0.58rem;color:var(--ink-muted);padding:3px 9px;border-radius:20px;border:1px solid var(--border);letter-spacing:0.06em;text-transform:uppercase;}
+  .ads-tag{font-size:0.58rem;color:#7A3B1E;background:#FDEEE6;padding:3px 9px;border-radius:20px;font-weight:500;}
+  .status-select{font-size:0.58rem;font-weight:500;padding:3px 9px;border-radius:20px;border:none;cursor:pointer;letter-spacing:0.06em;text-transform:uppercase;appearance:none;-webkit-appearance:none;outline:none;margin-left:auto;}
+  .status-select.s-published{background:var(--published-bg);color:var(--published-color);}
+  .status-select.s-ready{background:var(--ready-bg);color:var(--ready-color);}
+  .status-select.s-progress{background:var(--progress-bg);color:var(--progress-color);}
+  .status-select.s-draft{background:var(--draft-bg);color:var(--draft-color);}
+  .status-select.s-pending{background:var(--pending-bg);color:var(--pending-color);}
+  .card-title{font-size:0.92rem;font-weight:500;color:var(--ink);margin-bottom:0.6rem;line-height:1.4;}
+  .card-fields{display:grid;grid-template-columns:1fr 1fr;gap:0.4rem 1rem;}
+  .field-label{font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:0.15rem;}
+  .field-value{font-size:0.76rem;color:var(--ink-light);line-height:1.5;font-style:italic;}
+  .field-value.no-italic{font-style:normal;}
+  .trend-note{margin-top:0.6rem;font-size:0.7rem;color:var(--trend-color);background:var(--trend-bg);padding:0.35rem 0.7rem;border-radius:6px;border-left:2px solid var(--gold);}
+  .strategy{margin-top:4rem;padding-top:3rem;border-top:1px solid var(--border);}
+  .strategy-header h2{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--ink);margin-bottom:0.4rem;}
+  .strategy-header p{font-size:0.82rem;color:var(--ink-muted);margin-bottom:2rem;}
+  .strategy-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:2rem;}
+  .s-card{background:var(--warm-white);border:1px solid var(--border);border-radius:12px;padding:1.2rem 1.3rem;}
+  .s-card-label{font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem;}
+  .s-card h3{font-size:0.86rem;font-weight:500;color:var(--ink);margin-bottom:0.5rem;line-height:1.4;}
+  .s-card p{font-size:0.76rem;color:var(--ink-light);line-height:1.65;}
+  .ads-section{background:var(--ink);border-radius:12px;padding:1.75rem;margin-top:1rem;}
+  .ads-section h3{font-family:'Playfair Display',serif;font-size:1rem;color:var(--gold);margin-bottom:1rem;}
+  .ads-list{display:flex;flex-direction:column;gap:8px;}
+  .ads-item{display:flex;align-items:flex-start;gap:12px;}
+  .ads-num{font-family:'Playfair Display',serif;font-size:1.1rem;color:rgba(201,169,110,0.4);width:20px;flex-shrink:0;}
+  .ads-text{font-size:0.8rem;color:rgba(255,255,255,0.75);line-height:1.5;}
+  .ads-text strong{color:#fff;font-weight:500;}
+  footer{text-align:center;padding:2rem;font-size:0.7rem;color:var(--ink-muted);letter-spacing:0.08em;}
+  [contenteditable="true"]{outline:none;border-radius:4px;transition:background 0.15s;}
+  [contenteditable="true"]:hover{background:rgba(201,169,110,0.08);}
+  [contenteditable="true"]:focus{background:rgba(201,169,110,0.12);box-shadow:0 0 0 2px rgba(201,169,110,0.3);}
+  @media(max-width:640px){
+    header{padding:2rem 1.5rem;}.brand{font-size:2.5rem;}
+    .card{grid-template-columns:75px 1fr;}.card-fields{grid-template-columns:1fr;}
+    .strategy-grid{grid-template-columns:1fr;}
   }
 </style>
 </head>
 <body>
- 
+
 <header>
   <div class="header-top">
     <div><div class="brand">Ogui<span>.</span></div></div>
-    <div class="header-meta">
-      <p>Calendario de contenido</p>
-      <strong>Semanas 1–4 · Mar–Abr 2026</strong>
-    </div>
+    <div class="header-meta"><p>Calendario de contenido</p><strong>Marzo – Abril 2026</strong></div>
   </div>
   <div class="header-subtitle">
     <span><span class="dot dot-reel"></span> Reel</span>
     <span><span class="dot dot-post"></span> Post</span>
     <span><span class="dot dot-trend"></span> Trend</span>
-    <span>· Lun/Mié/Vie = Reel · Mar = Post · Jue = Trend</span>
+    <span class="scheme-pill">Lun = Reel · Mar = Post · Mié = Trend · Jue = Post · Vie = Reel</span>
   </div>
 </header>
- 
+
 <main>
   <div class="edit-hint-wrap">
-    <span class="edit-hint">✏️ Haz clic en cualquier texto para editarlo directamente</span>
+    <span class="edit-hint">✏️ Clic en cualquier texto para editar · Cambia el status con el selector de cada tarjeta</span>
   </div>
- 
-  <!-- SEMANA 1 (lanzamiento, solo jue-vie) -->
+  <div class="status-legend">
+    <span class="status-pill s-published">✓ Published</span>
+    <span class="status-pill s-ready">● Ready to publish</span>
+    <span class="status-pill s-progress">◑ In progress</span>
+    <span class="status-pill s-draft">○ Draft</span>
+    <span class="status-pill s-pending">— Pendiente</span>
+  </div>
+
+  <!-- ═══ SEMANA 1 ═══ -->
   <div class="week">
     <div class="week-header">
       <span class="week-number">Semana 01</span>
-      <span class="week-title" contenteditable="true">26 mar – 28 mar · Semana de lanzamiento</span>
+      <span class="week-title">26 – 27 Mar · Semana de lanzamiento</span>
       <div class="week-line"></div>
     </div>
- 
-    <div class="card">
-      <div class="card-day"><div class="day-name">Jueves</div><div class="day-date" contenteditable="true">26</div><div class="day-month">Mar</div></div>
+
+    <!-- Jue 26 — REEL -->
+    <div class="card is-published">
+      <div class="card-day"><div class="day-name">Jueves</div><div class="day-date">26</div><div class="day-month">Mar</div></div>
       <div class="card-body">
-        <div class="card-top"><span class="badge badge-reel">Reel</span><span class="role">Enganchar</span></div>
+        <div class="card-top">
+          <span class="badge badge-reel">Reel</span><span class="role">Enganchar</span>
+          <select class="status-select s-published" onchange="this.className='status-select '+this.value">
+            <option value="s-published" selected>✓ Published</option><option value="s-ready">● Ready</option><option value="s-progress">◑ In progress</option><option value="s-draft">○ Draft</option><option value="s-pending">— Pendiente</option>
+          </select>
+        </div>
         <div class="card-title" contenteditable="true">Imagínate tu yo de 65 años</div>
         <div class="card-fields">
           <div><div class="field-label">Hook</div><div class="field-value" contenteditable="true">"Imagínate tu yo de 65 años mirándote ahora mismo. ¿Qué te diría?"</div></div>
@@ -124,11 +154,17 @@
         </div>
       </div>
     </div>
- 
-    <div class="card">
-      <div class="card-day"><div class="day-name">Viernes</div><div class="day-date" contenteditable="true">27</div><div class="day-month">Mar</div></div>
+
+    <!-- Vie 27 — POST -->
+    <div class="card is-published">
+      <div class="card-day"><div class="day-name">Viernes</div><div class="day-date">27</div><div class="day-month">Mar</div></div>
       <div class="card-body">
-        <div class="card-top"><span class="badge badge-post">Post</span><span class="role">Educar</span></div>
+        <div class="card-top">
+          <span class="badge badge-post">Post</span><span class="role">Educar</span>
+          <select class="status-select s-published" onchange="this.className='status-select '+this.value">
+            <option value="s-published" selected>✓ Published</option><option value="s-ready">● Ready</option><option value="s-progress">◑ In progress</option><option value="s-draft">○ Draft</option><option value="s-pending">— Pendiente</option>
+          </select>
+        </div>
         <div class="card-title" contenteditable="true">Consejos financieros que nadie quiere escuchar</div>
         <div class="card-fields">
           <div><div class="field-label">Caption</div><div class="field-value" contenteditable="true">No son los consejos bonitos. Son los que realmente mueven el dinero. ¿Con cuál te cuesta más? Cuéntame abajo.</div></div>
@@ -137,31 +173,43 @@
       </div>
     </div>
   </div>
- 
-  <!-- SEMANA 2 -->
+
+  <!-- ═══ SEMANA 2 ═══ -->
   <div class="week">
     <div class="week-header">
       <span class="week-number">Semana 02</span>
-      <span class="week-title" contenteditable="true">31 mar – 4 abr</span>
+      <span class="week-title">30 Mar – 3 Abr</span>
       <div class="week-line"></div>
     </div>
- 
-    <div class="card">
-      <div class="card-day"><div class="day-name">Lunes</div><div class="day-date" contenteditable="true">31</div><div class="day-month">Mar</div></div>
+
+    <!-- Lun 30 — TREND 1 (ya publicado) -->
+    <div class="card is-published">
+      <div class="card-day"><div class="day-name">Lunes</div><div class="day-date">30</div><div class="day-month">Mar</div></div>
       <div class="card-body">
-        <div class="card-top"><span class="badge badge-reel">Reel</span><span class="role">Convertir</span><span class="ads-tag">⭐ Ads</span></div>
-        <div class="card-title" contenteditable="true">¿Y si te dijera que ya tienes el dinero para tu plan de retiro?</div>
+        <div class="card-top">
+          <span class="badge badge-reel">Reel</span><span class="badge badge-trend">Trend 1</span><span class="role">Alcance</span>
+          <select class="status-select s-published" onchange="this.className='status-select '+this.value">
+            <option value="s-published" selected>✓ Published</option><option value="s-ready">● Ready</option><option value="s-progress">◑ In progress</option><option value="s-draft">○ Draft</option><option value="s-pending">— Pendiente</option>
+          </select>
+        </div>
+        <div class="card-title" contenteditable="true">Trend 1</div>
         <div class="card-fields">
-          <div><div class="field-label">Hook</div><div class="field-value" contenteditable="true">"¿Y si ya tienes el dinero para tu retiro y solo no lo sabes?"</div></div>
-          <div><div class="field-label">Caption</div><div class="field-value" contenteditable="true">No necesitas ganar más. Necesitas saber dónde está lo que ya tienes. Escríbeme DIAGNÓSTICO y te explico.</div></div>
+          <div><div class="field-label">Caption</div><div class="field-value" contenteditable="true">El cambio más importante no es en tu cuenta bancaria. Es en tu cabeza. ¿Ya empezaste?</div></div>
+          <div><div class="field-label">Objetivo</div><div class="field-value no-italic" contenteditable="true">Alcance orgánico</div></div>
         </div>
       </div>
     </div>
- 
-    <div class="card">
-      <div class="card-day"><div class="day-name">Martes</div><div class="day-date" contenteditable="true">1</div><div class="day-month">Abr</div></div>
+
+    <!-- Mar 31 — POST (hoy, ya publicado) -->
+    <div class="card is-published">
+      <div class="card-day"><div class="day-name">Martes</div><div class="day-date">31</div><div class="day-month">Mar</div></div>
       <div class="card-body">
-        <div class="card-top"><span class="badge badge-post">Post</span><span class="role">Educar</span></div>
+        <div class="card-top">
+          <span class="badge badge-post">Post</span><span class="role">Educar</span>
+          <select class="status-select s-published" onchange="this.className='status-select '+this.value">
+            <option value="s-published" selected>✓ Published</option><option value="s-ready">● Ready</option><option value="s-progress">◑ In progress</option><option value="s-draft">○ Draft</option><option value="s-pending">— Pendiente</option>
+          </select>
+        </div>
         <div class="card-title" contenteditable="true">La teoría del dinero invisible</div>
         <div class="card-fields">
           <div><div class="field-label">Caption</div><div class="field-value" contenteditable="true">Hay dinero que ya tienes y no estás viendo. Te lo explico aquí. Guarda esto para cuando lo necesites.</div></div>
@@ -169,57 +217,80 @@
         </div>
       </div>
     </div>
- 
+
+    <!-- Mié 1 — REEL -->
     <div class="card">
-      <div class="card-day"><div class="day-name">Miércoles</div><div class="day-date" contenteditable="true">2</div><div class="day-month">Abr</div></div>
+      <div class="card-day"><div class="day-name">Miércoles</div><div class="day-date">1</div><div class="day-month">Abr</div></div>
       <div class="card-body">
-        <div class="card-top"><span class="badge badge-reel">Reel</span><span class="role">Conectar</span></div>
-        <div class="card-title" contenteditable="true">9 de cada 10 mujeres van a quedarse solas con su dinero</div>
+        <div class="card-top">
+          <span class="badge badge-reel">Reel</span><span class="role">Convertir</span><span class="ads-tag">⭐ Ads</span>
+          <select class="status-select s-ready" onchange="this.className='status-select '+this.value">
+            <option value="s-published">✓ Published</option><option value="s-ready" selected>● Ready</option><option value="s-progress">◑ In progress</option><option value="s-draft">○ Draft</option><option value="s-pending">— Pendiente</option>
+          </select>
+        </div>
+        <div class="card-title" contenteditable="true">¿Y si te dijera que ya tienes el dinero para tu plan de retiro?</div>
         <div class="card-fields">
-          <div><div class="field-label">Hook</div><div class="field-value" contenteditable="true">"9 de cada 10 mujeres no tienen un plan financiero propio. ¿Tú eres la excepción?"</div></div>
-          <div><div class="field-label">Caption</div><div class="field-value" contenteditable="true">No es un dato para asustarte. Es para que actúes antes de que sea tarde. Mándaselo a alguien que necesita verlo.</div></div>
+          <div><div class="field-label">Hook</div><div class="field-value" contenteditable="true">"¿Y si ya tienes el dinero para tu retiro y solo no lo sabes?"</div></div>
+          <div><div class="field-label">Caption</div><div class="field-value" contenteditable="true">No necesitas ganar más. Necesitas saber dónde está lo que ya tienes. Escríbeme DIAGNÓSTICO y te explico.</div></div>
         </div>
       </div>
     </div>
- 
+
+    <!-- Jue 2 — POST -->
     <div class="card">
-      <div class="card-day"><div class="day-name">Jueves</div><div class="day-date" contenteditable="true">3</div><div class="day-month">Abr</div></div>
+      <div class="card-day"><div class="day-name">Jueves</div><div class="day-date">2</div><div class="day-month">Abr</div></div>
       <div class="card-body">
-        <div class="card-top"><span class="badge badge-reel">Reel</span><span class="badge badge-trend">Trend 1</span><span class="role">Alcance</span></div>
-        <div class="card-title" contenteditable="true">Trend 1</div>
-        <div class="card-fields">
-          <div><div class="field-label">Idea</div><div class="field-value" contenteditable="true">Contraste: cómo piensas el dinero vs. cómo deberías pensarlo</div></div>
-          <div><div class="field-label">Caption</div><div class="field-value" contenteditable="true">El cambio más importante no es en tu cuenta bancaria. Es en tu cabeza. ¿Ya empezaste?</div></div>
+        <div class="card-top">
+          <span class="badge badge-post">Post</span><span class="role">Inspirar</span>
+          <select class="status-select s-ready" onchange="this.className='status-select '+this.value">
+            <option value="s-published">✓ Published</option><option value="s-ready" selected>● Ready</option><option value="s-progress">◑ In progress</option><option value="s-draft">○ Draft</option><option value="s-pending">— Pendiente</option>
+          </select>
         </div>
-        <div class="trend-note" contenteditable="true">Jueves de trend = mid-week peak. Alcance sin perder el hilo narrativo de la semana.</div>
-      </div>
-    </div>
- 
-    <div class="card">
-      <div class="card-day"><div class="day-name">Viernes</div><div class="day-date" contenteditable="true">4</div><div class="day-month">Abr</div></div>
-      <div class="card-body">
-        <div class="card-top"><span class="badge badge-reel">Reel</span><span class="role">Inspirar</span></div>
         <div class="card-title" contenteditable="true">Para convertirte en ella primero tenías que ser ella</div>
         <div class="card-fields">
-          <div><div class="field-label">Hook</div><div class="field-value" contenteditable="true">"Antes de tener el dinero, tuviste que decidir que lo merecías."</div></div>
           <div><div class="field-label">Caption</div><div class="field-value" contenteditable="true">La versión de ti que ya lo logró empezó exactamente donde estás hoy. Guarda esto y léelo cada que dudes.</div></div>
+          <div><div class="field-label">Objetivo</div><div class="field-value no-italic" contenteditable="true">Identidad + saves + comunidad</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vie 3 — REEL -->
+    <div class="card">
+      <div class="card-day"><div class="day-name">Viernes</div><div class="day-date">3</div><div class="day-month">Abr</div></div>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="badge badge-reel">Reel</span><span class="role">Educar</span>
+          <select class="status-select s-draft" onchange="this.className='status-select '+this.value">
+            <option value="s-published">✓ Published</option><option value="s-ready">● Ready</option><option value="s-progress">◑ In progress</option><option value="s-draft" selected>○ Draft</option><option value="s-pending">— Pendiente</option>
+          </select>
+        </div>
+        <div class="card-title" contenteditable="true">Lo que tu seguro de gastos médicos del trabajo NO te cubre</div>
+        <div class="card-fields">
+          <div><div class="field-label">Hook</div><div class="field-value" contenteditable="true">"Lo que crees que cubre tu seguro del trabajo y lo que realmente cubre son dos cosas muy distintas."</div></div>
+          <div><div class="field-label">Caption</div><div class="field-value" contenteditable="true">Cinco cosas que asumes que están incluidas. Y no están. Guarda esto antes de que lo necesites.</div></div>
         </div>
       </div>
     </div>
   </div>
- 
-  <!-- SEMANA 3 -->
+
+  <!-- ═══ SEMANA 3 ═══ -->
   <div class="week">
     <div class="week-header">
       <span class="week-number">Semana 03</span>
-      <span class="week-title" contenteditable="true">7 abr – 11 abr</span>
+      <span class="week-title">7 – 11 Abr</span>
       <div class="week-line"></div>
     </div>
- 
+
+    <!-- Lun 7 — REEL -->
     <div class="card">
-      <div class="card-day"><div class="day-name">Lunes</div><div class="day-date" contenteditable="true">7</div><div class="day-month">Abr</div></div>
+      <div class="card-day"><div class="day-name">Lunes</div><div class="day-date">7</div><div class="day-month">Abr</div></div>
       <div class="card-body">
-        <div class="card-top"><span class="badge badge-reel">Reel</span><span class="role">Conectar</span></div>
+        <div class="card-top">
+          <span class="badge badge-reel">Reel</span><span class="role">Conectar</span>
+          <select class="status-select s-draft" onchange="this.className='status-select '+this.value">
+            <option value="s-published">✓ Published</option><option value="s-ready">● Ready</option><option value="s-progress">◑ In progress</option><option value="s-draft" selected>○ Draft</option><option value="s-pending">— Pendiente</option>
+          </select>
+        </div>
         <div class="card-title" contenteditable="true">La objeción del esposo / papá</div>
         <div class="card-fields">
           <div><div class="field-label">Hook</div><div class="field-value" contenteditable="true">"'Primero platícalo con tu esposo.' Eso me dijeron a mí también."</div></div>
@@ -227,48 +298,236 @@
         </div>
       </div>
     </div>
- 
+
+    <!-- Mar 8 — POST -->
     <div class="card">
-      <div class="card-day"><div class="day-name">Martes</div><div class="day-date" contenteditable="true">8</div><div class="day-month">Abr</div></div>
+      <div class="card-day"><div class="day-name">Martes</div><div class="day-date">8</div><div class="day-month">Abr</div></div>
       <div class="card-body">
-        <div class="card-top"><span class="badge badge-post">Post</span><span class="role">Educar</span></div>
-        <div class="card-title" contenteditable="true">Lo que tu seguro de gastos médicos del trabajo NO te cubre</div>
+        <div class="card-top">
+          <span class="badge badge-post">Post</span><span class="role">Educar</span>
+          <select class="status-select s-draft" onchange="this.className='status-select '+this.value">
+            <option value="s-published">✓ Published</option><option value="s-ready">● Ready</option><option value="s-progress">◑ In progress</option><option value="s-draft" selected>○ Draft</option><option value="s-pending">— Pendiente</option>
+          </select>
+        </div>
+        <div class="card-title" contenteditable="true">El bienestar es...</div>
         <div class="card-fields">
-          <div><div class="field-label">Caption</div><div class="field-value" contenteditable="true">Cinco cosas que asumes que están incluidas en tu seguro. Y no están. Guarda esto antes de que lo necesites.</div></div>
-          <div><div class="field-label">Objetivo</div><div class="field-value no-italic" contenteditable="true">Saves masivos + autoridad</div></div>
+          <div><div class="field-label">Caption</div><div class="field-value" contenteditable="true">El bienestar no es solo ir al gym o comer bien. También es saber que tu dinero está trabajando para ti mientras tú vives. ¿Ya tienes esa paz?</div></div>
+          <div><div class="field-label">Objetivo</div><div class="field-value no-italic" contenteditable="true">Identidad fit + finanzas + comentarios</div></div>
         </div>
       </div>
     </div>
- 
+
+    <!-- Mié 9 — TREND 2 -->
     <div class="card">
-      <div class="card-day"><div class="day-name">Miércoles</div><div class="day-date" contenteditable="true">9</div><div class="day-month">Abr</div></div>
+      <div class="card-day"><div class="day-name">Miércoles</div><div class="day-date">9</div><div class="day-month">Abr</div></div>
       <div class="card-body">
-        <div class="card-top"><span class="badge badge-reel">Reel</span><span class="role">Convertir</span><span class="ads-tag">⭐ Ads</span></div>
-        <div class="card-title" contenteditable="true">Necesito platicarlo con mi esposo primero</div>
-        <div class="card-fields">
-          <div><div class="field-label">Hook</div><div class="field-value" contenteditable="true">"'Necesito platicarlo con mi esposo.' Respeto total. Pero el tiempo no espera."</div></div>
-          <div><div class="field-label">Caption</div><div class="field-value" contenteditable="true">Mientras lo platicas, el interés compuesto ya está corriendo — para alguien más. Escríbeme HABLAMOS y coordinamos los dos.</div></div>
+        <div class="card-top">
+          <span class="badge badge-reel">Reel</span><span class="badge badge-trend">Trend 2</span><span class="role">Viral</span>
+          <select class="status-select s-draft" onchange="this.className='status-select '+this.value">
+            <option value="s-published">✓ Published</option><option value="s-ready">● Ready</option><option value="s-progress">◑ In progress</option><option value="s-draft" selected>○ Draft</option><option value="s-pending">— Pendiente</option>
+          </select>
         </div>
-      </div>
-    </div>
- 
-    <div class="card">
-      <div class="card-day"><div class="day-name">Jueves</div><div class="day-date" contenteditable="true">10</div><div class="day-month">Abr</div></div>
-      <div class="card-body">
-        <div class="card-top"><span class="badge badge-reel">Reel</span><span class="badge badge-trend">Trend 2</span><span class="role">Alcance</span></div>
         <div class="card-title" contenteditable="true">Trend 2</div>
         <div class="card-fields">
-          <div><div class="field-label">Idea</div><div class="field-value" contenteditable="true">Lo que tu seguro del trabajo te da vs. lo que realmente necesitas</div></div>
-          <div><div class="field-label">Caption</div><div class="field-value" contenteditable="true">La diferencia entre lo que crees tener y lo que realmente tienes puede costarte muy caro. ¿Ya lo revisaste?</div></div>
+          <div><div class="field-label">Idea</div><div class="field-value" contenteditable="true">Adaptar trend a transformación: antes y después financiero</div></div>
+          <div><div class="field-label">Caption</div><div class="field-value" contenteditable="true">No fue suerte. Fue una decisión que tomé en el momento más incómodo. ¿Cuándo vas a tomar la tuya?</div></div>
         </div>
-        <div class="trend-note" contenteditable="true">Trend conectado al post del martes — refuerza el tema de la semana y amplía el alcance.</div>
+        <div class="trend-note" contenteditable="true">Mayor potencial viral: identidad + transformación. El antes/después emocional conecta profundo.</div>
       </div>
     </div>
- 
+
+    <!-- Jue 10 — POST -->
     <div class="card">
-      <div class="card-day"><div class="day-name">Viernes</div><div class="day-date" contenteditable="true">11</div><div class="day-month">Abr</div></div>
+      <div class="card-day"><div class="day-name">Jueves</div><div class="day-date">10</div><div class="day-month">Abr</div></div>
       <div class="card-body">
-        <div class="card-top"><span class="badge badge-reel">Reel</span><span class="role">Conectar</span></div>
+        <div class="card-top">
+          <span class="badge badge-post">Post</span><span class="role">Inspirar</span>
+          <select class="status-select s-draft" onchange="this.className='status-select '+this.value">
+            <option value="s-published">✓ Published</option><option value="s-ready">● Ready</option><option value="s-progress">◑ In progress</option><option value="s-draft" selected>○ Draft</option><option value="s-pending">— Pendiente</option>
+          </select>
+        </div>
+        <div class="card-title" contenteditable="true">Yo hace 10 años / yo ahora</div>
+        <div class="card-fields">
+          <div><div class="field-label">Caption</div><div class="field-value" contenteditable="true">Hace 10 años no tenía un plan. Hoy tengo claridad, seguridad y libertad. La diferencia no fue el dinero — fue la decisión. ¿Cuándo empiezas tú?</div></div>
+          <div><div class="field-label">Objetivo</div><div class="field-value no-italic" contenteditable="true">Identificación + saves + DMs</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vie 11 — REEL -->
+    <div class="card">
+      <div class="card-day"><div class="day-name">Viernes</div><div class="day-date">11</div><div class="day-month">Abr</div></div>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="badge badge-reel">Reel</span><span class="role">Conectar</span>
+          <select class="status-select s-draft" onchange="this.className='status-select '+this.value">
+            <option value="s-published">✓ Published</option><option value="s-ready">● Ready</option><option value="s-progress">◑ In progress</option><option value="s-draft" selected>○ Draft</option><option value="s-pending">— Pendiente</option>
+          </select>
+        </div>
+        <div class="card-title" contenteditable="true">Señales de que tu relación con el dinero es tóxica</div>
+        <div class="card-fields">
+          <div><div class="field-label">Hook</div><div class="field-value" contenteditable="true">"Si evitas ver tu estado de cuenta, esto es para ti."</div></div>
+          <div><div class="field-label">Caption</div><div class="field-value" contenteditable="true">No es falta de disciplina — es lo que nunca te enseñaron. ¿Con cuál de estas señales te identificas más? Cuéntame abajo.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SEMANA 4 ═══ -->
+  <div class="week">
+    <div class="week-header">
+      <span class="week-number">Semana 04</span>
+      <span class="week-title">14 – 17 Abr</span>
+      <div class="week-line"></div>
+    </div>
+
+    <!-- Lun 14 — REEL -->
+    <div class="card">
+      <div class="card-day"><div class="day-name">Lunes</div><div class="day-date">14</div><div class="day-month">Abr</div></div>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="badge badge-reel">Reel</span><span class="role">Convertir</span><span class="ads-tag">⭐ Ads</span>
+          <select class="status-select s-pending" onchange="this.className='status-select '+this.value">
+            <option value="s-published">✓ Published</option><option value="s-ready">● Ready</option><option value="s-progress">◑ In progress</option><option value="s-draft">○ Draft</option><option value="s-pending" selected>— Pendiente</option>
+          </select>
+        </div>
+        <div class="card-title" contenteditable="true">No sé si sea la mejor decisión</div>
+        <div class="card-fields">
+          <div><div class="field-label">Hook</div><div class="field-value" contenteditable="true">"'No sé si sea la mejor decisión.' Eso me dijo ella antes de cambiar su vida."</div></div>
+          <div><div class="field-label">Caption</div><div class="field-value" contenteditable="true">La duda no es el problema. Esperar a que se vaya sola, sí. Escríbeme DUDA y resolvemos juntas lo que te está frenando.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mar 15 — POST -->
+    <div class="card">
+      <div class="card-day"><div class="day-name">Martes</div><div class="day-date">15</div><div class="day-month">Abr</div></div>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="badge badge-post">Post</span><span class="role">Inspirar</span>
+          <select class="status-select s-pending" onchange="this.className='status-select '+this.value">
+            <option value="s-published">✓ Published</option><option value="s-ready">● Ready</option><option value="s-progress">◑ In progress</option><option value="s-draft">○ Draft</option><option value="s-pending" selected>— Pendiente</option>
+          </select>
+        </div>
+        <div class="card-title" contenteditable="true">"A woman with financial knowledge is a woman with limitless power"</div>
+        <div class="card-fields">
+          <div><div class="field-label">Caption</div><div class="field-value" contenteditable="true">El conocimiento financiero no es un lujo. Es la herramienta más poderosa que puedes tener. Guárdalo. Mándaselo a quien lo necesita.</div></div>
+          <div><div class="field-label">Objetivo</div><div class="field-value no-italic" contenteditable="true">Shares + identidad de marca</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mié 16 — TREND 3 -->
+    <div class="card">
+      <div class="card-day"><div class="day-name">Miércoles</div><div class="day-date">16</div><div class="day-month">Abr</div></div>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="badge badge-reel">Reel</span><span class="badge badge-trend">Trend 3</span><span class="role">Alcance</span>
+          <select class="status-select s-pending" onchange="this.className='status-select '+this.value">
+            <option value="s-published">✓ Published</option><option value="s-ready">● Ready</option><option value="s-progress">◑ In progress</option><option value="s-draft">○ Draft</option><option value="s-pending" selected>— Pendiente</option>
+          </select>
+        </div>
+        <div class="card-title" contenteditable="true">Trend 3</div>
+        <div class="card-fields">
+          <div><div class="field-label">Idea</div><div class="field-value" contenteditable="true">Adaptar trend al universo fit + finanzas + bienestar de Ogui</div></div>
+          <div><div class="field-label">Caption</div><div class="field-value" contenteditable="true">No son secretos. Son decisiones que tomas (o no) cada día. ¿Cuál ya tienes? ¿Cuál te falta? Cuéntame abajo.</div></div>
+        </div>
+        <div class="trend-note" contenteditable="true">Cierre de mes con energía positiva. Conecta el universo fit + finanzas + bienestar de Ogui.</div>
+      </div>
+    </div>
+
+    <!-- Jue 17 — POST -->
+    <div class="card">
+      <div class="card-day"><div class="day-name">Jueves</div><div class="day-date">17</div><div class="day-month">Abr</div></div>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="badge badge-post">Post</span><span class="role">Conectar</span>
+          <select class="status-select s-pending" onchange="this.className='status-select '+this.value">
+            <option value="s-published">✓ Published</option><option value="s-ready">● Ready</option><option value="s-progress">◑ In progress</option><option value="s-draft">○ Draft</option><option value="s-pending" selected>— Pendiente</option>
+          </select>
+        </div>
+        <div class="card-title" contenteditable="true">Necesito platicarlo con mi esposo primero</div>
+        <div class="card-fields">
+          <div><div class="field-label">Caption</div><div class="field-value" contenteditable="true">Respeto total. Pero mientras lo platicas, el interés compuesto ya corre — para alguien más. Escríbeme HABLAMOS y coordinamos juntas.</div></div>
+          <div><div class="field-label">Objetivo</div><div class="field-value no-italic" contenteditable="true">Romper objeción → DM → cierre</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SEMANA 5 ═══ -->
+  <div class="week">
+    <div class="week-header">
+      <span class="week-number">Semana 05</span>
+      <span class="week-title">22 – 25 Abr</span>
+      <div class="week-line"></div>
+    </div>
+
+    <!-- Mar 22 — REEL -->
+    <div class="card is-pending">
+      <div class="card-day"><div class="day-name">Martes</div><div class="day-date">22</div><div class="day-month">Abr</div></div>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="badge badge-reel">Reel</span><span class="role">Conectar</span>
+          <select class="status-select s-pending" onchange="this.className='status-select '+this.value">
+            <option value="s-published">✓ Published</option><option value="s-ready">● Ready</option><option value="s-progress">◑ In progress</option><option value="s-draft">○ Draft</option><option value="s-pending" selected>— Pendiente</option>
+          </select>
+        </div>
+        <div class="card-title" contenteditable="true">La historia de su papá (re-fresh)</div>
+        <div class="card-fields">
+          <div><div class="field-label">Hook</div><div class="field-value" contenteditable="true">"Mi papá trabajó 40 años. Y al final no tenía nada. Eso me cambió."</div></div>
+          <div><div class="field-label">Caption</div><div class="field-value" contenteditable="true">No cuento esto para que sientas lástima. Lo cuento para que no les pase lo mismo a los tuyos. ¿Tienes un plan? Cuéntame.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mié 23 — TREND 4 -->
+    <div class="card is-pending">
+      <div class="card-day"><div class="day-name">Miércoles</div><div class="day-date">23</div><div class="day-month">Abr</div></div>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="badge badge-reel">Reel</span><span class="badge badge-trend">Trend 4</span><span class="role">Pendiente</span>
+          <select class="status-select s-pending" onchange="this.className='status-select '+this.value">
+            <option value="s-published">✓ Published</option><option value="s-ready">● Ready</option><option value="s-progress">◑ In progress</option><option value="s-draft">○ Draft</option><option value="s-pending" selected>— Pendiente</option>
+          </select>
+        </div>
+        <div class="card-title" contenteditable="true">Trend 4</div>
+        <div class="card-fields">
+          <div><div class="field-label">Idea</div><div class="field-value" contenteditable="true">Definir trend según lo que esté sonando esa semana</div></div>
+          <div><div class="field-label">Caption</div><div class="field-value" contenteditable="true">Por escribir</div></div>
+        </div>
+        <div class="trend-note" contenteditable="true">Pendiente: asignar trend de la semana cuando esté más cerca la fecha.</div>
+      </div>
+    </div>
+
+    <!-- Jue 24 — POST -->
+    <div class="card is-pending">
+      <div class="card-day"><div class="day-name">Jueves</div><div class="day-date">24</div><div class="day-month">Abr</div></div>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="badge badge-post">Post</span><span class="role">Conectar</span>
+          <select class="status-select s-pending" onchange="this.className='status-select '+this.value">
+            <option value="s-published">✓ Published</option><option value="s-ready">● Ready</option><option value="s-progress">◑ In progress</option><option value="s-draft">○ Draft</option><option value="s-pending" selected>— Pendiente</option>
+          </select>
+        </div>
+        <div class="card-title" contenteditable="true">Te veo más feliz</div>
+        <div class="card-fields">
+          <div><div class="field-label">Caption</div><div class="field-value" contenteditable="true">Cuando alguien te dice "te veo más feliz", a veces es porque por fin dejaste de cargar lo que no era tuyo — incluyendo las deudas y el estrés financiero. ¿Ya sientes eso?</div></div>
+          <div><div class="field-label">Objetivo</div><div class="field-value no-italic" contenteditable="true">Comentarios + bienestar + conexión emocional</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vie 25 — REEL -->
+    <div class="card is-pending">
+      <div class="card-day"><div class="day-name">Viernes</div><div class="day-date">25</div><div class="day-month">Abr</div></div>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="badge badge-reel">Reel</span><span class="role">Pendiente</span>
+          <select class="status-select s-pending" onchange="this.className='status-select '+this.value">
+            <option value="s-published">✓ Published</option><option value="s-ready">● Ready</option><option value="s-progress">◑ In progress</option><option value="s-draft">○ Draft</option><option value="s-pending" selected>— Pendiente</option>
+          </select>
+        </div>
         <div class="card-title" contenteditable="true">El chip de bienestar</div>
         <div class="card-fields">
           <div><div class="field-label">Hook</div><div class="field-value" contenteditable="true">"Cuando tu dinero está en orden, todo lo demás también lo está."</div></div>
@@ -277,127 +536,108 @@
       </div>
     </div>
   </div>
- 
-  <!-- SEMANA 4 -->
+
+  <!-- ═══ SEMANA 6 ═══ -->
   <div class="week">
     <div class="week-header">
-      <span class="week-number">Semana 04</span>
-      <span class="week-title" contenteditable="true">14 abr – 18 abr</span>
+      <span class="week-number">Semana 06</span>
+      <span class="week-title">28 – 30 Abr · Cierre de mes</span>
       <div class="week-line"></div>
     </div>
- 
-    <div class="card">
-      <div class="card-day"><div class="day-name">Lunes</div><div class="day-date" contenteditable="true">14</div><div class="day-month">Abr</div></div>
+
+    <!-- Lun 28 — REEL -->
+    <div class="card is-pending">
+      <div class="card-day"><div class="day-name">Lunes</div><div class="day-date">28</div><div class="day-month">Abr</div></div>
       <div class="card-body">
-        <div class="card-top"><span class="badge badge-reel">Reel</span><span class="role">Convertir</span><span class="ads-tag">⭐ Ads</span></div>
-        <div class="card-title" contenteditable="true">No sé si sea la mejor decisión</div>
+        <div class="card-top">
+          <span class="badge badge-reel">Reel</span><span class="role">Convertir</span>
+          <select class="status-select s-pending" onchange="this.className='status-select '+this.value">
+            <option value="s-published">✓ Published</option><option value="s-ready">● Ready</option><option value="s-progress">◑ In progress</option><option value="s-draft">○ Draft</option><option value="s-pending" selected>— Pendiente</option>
+          </select>
+        </div>
+        <div class="card-title" contenteditable="true">9 de cada 10 mujeres van a quedarse solas con su dinero</div>
         <div class="card-fields">
-          <div><div class="field-label">Hook</div><div class="field-value" contenteditable="true">"'No sé si sea la mejor decisión.' Eso me dijo ella antes de cambiar su vida."</div></div>
-          <div><div class="field-label">Caption</div><div class="field-value" contenteditable="true">La duda no es el problema. Esperar a que se vaya sola, sí. Escríbeme DUDA y resolvemos juntas lo que te está frenando.</div></div>
+          <div><div class="field-label">Hook</div><div class="field-value" contenteditable="true">"9 de cada 10 mujeres no tienen un plan financiero propio. ¿Tú eres la excepción?"</div></div>
+          <div><div class="field-label">Caption</div><div class="field-value" contenteditable="true">No es un dato para asustarte. Es para que actúes antes de que sea tarde. Mándaselo a alguien que necesita verlo.</div></div>
         </div>
       </div>
     </div>
- 
-    <div class="card">
-      <div class="card-day"><div class="day-name">Martes</div><div class="day-date" contenteditable="true">15</div><div class="day-month">Abr</div></div>
+
+    <!-- Mar 29 — POST -->
+    <div class="card is-pending">
+      <div class="card-day"><div class="day-name">Martes</div><div class="day-date">29</div><div class="day-month">Abr</div></div>
       <div class="card-body">
-        <div class="card-top"><span class="badge badge-post">Post</span><span class="role">Inspirar</span></div>
-        <div class="card-title" contenteditable="true">"A woman with financial knowledge is a woman with limitless power"</div>
+        <div class="card-top">
+          <span class="badge badge-post">Post</span><span class="role">Comunidad</span>
+          <select class="status-select s-pending" onchange="this.className='status-select '+this.value">
+            <option value="s-published">✓ Published</option><option value="s-ready">● Ready</option><option value="s-progress">◑ In progress</option><option value="s-draft">○ Draft</option><option value="s-pending" selected>— Pendiente</option>
+          </select>
+        </div>
+        <div class="card-title" contenteditable="true">Women to women — quote</div>
         <div class="card-fields">
-          <div><div class="field-label">Caption</div><div class="field-value" contenteditable="true">El conocimiento financiero no es un lujo. Es la herramienta más poderosa que puedes tener. Guárdalo. Mándaselo a quien lo necesita.</div></div>
-          <div><div class="field-label">Objetivo</div><div class="field-value no-italic" contenteditable="true">Shares + identidad de marca</div></div>
+          <div><div class="field-label">Caption</div><div class="field-value" contenteditable="true">De mujer a mujer: el mejor regalo que puedes darte es entender tu dinero. Guárdalo. Mándaselo a alguien que lo necesita hoy.</div></div>
+          <div><div class="field-label">Objetivo</div><div class="field-value no-italic" contenteditable="true">Comunidad + shares + identidad</div></div>
         </div>
       </div>
     </div>
- 
-    <div class="card">
-      <div class="card-day"><div class="day-name">Miércoles</div><div class="day-date" contenteditable="true">16</div><div class="day-month">Abr</div></div>
+
+    <!-- Mié 30 — REEL -->
+    <div class="card is-pending">
+      <div class="card-day"><div class="day-name">Miércoles</div><div class="day-date">30</div><div class="day-month">Abr</div></div>
       <div class="card-body">
-        <div class="card-top"><span class="badge badge-reel">Reel</span><span class="role">Conectar</span></div>
-        <div class="card-title" contenteditable="true">La historia de su papá (re-fresh)</div>
-        <div class="card-fields">
-          <div><div class="field-label">Hook</div><div class="field-value" contenteditable="true">"Mi papá trabajó 40 años. Y al final no tenía nada. Eso me cambió."</div></div>
-          <div><div class="field-label">Caption</div><div class="field-value" contenteditable="true">No cuento esto para que sientas lástima. Lo cuento para que no les pase lo mismo a los tuyos. ¿Tienes un plan? Cuéntame.</div></div>
+        <div class="card-top">
+          <span class="badge badge-reel">Reel</span><span class="role">Convertir</span><span class="ads-tag">⭐ Ads</span>
+          <select class="status-select s-pending" onchange="this.className='status-select '+this.value">
+            <option value="s-published">✓ Published</option><option value="s-ready">● Ready</option><option value="s-progress">◑ In progress</option><option value="s-draft">○ Draft</option><option value="s-pending" selected>— Pendiente</option>
+          </select>
         </div>
-      </div>
-    </div>
- 
-    <div class="card">
-      <div class="card-day"><div class="day-name">Jueves</div><div class="day-date" contenteditable="true">17</div><div class="day-month">Abr</div></div>
-      <div class="card-body">
-        <div class="card-top"><span class="badge badge-reel">Reel</span><span class="badge badge-trend">Trend 3</span><span class="role">Viral</span></div>
-        <div class="card-title" contenteditable="true">Trend 3</div>
+        <div class="card-title" contenteditable="true">No sacrifiques tu libertad financiera</div>
         <div class="card-fields">
-          <div><div class="field-label">Idea</div><div class="field-value" contenteditable="true">Yo hace 10 años vs. yo ahora — transformación financiera real</div></div>
-          <div><div class="field-label">Caption</div><div class="field-value" contenteditable="true">No fue suerte. Fue una decisión que tomé en el momento más incómodo. ¿Cuándo vas a tomar la tuya?</div></div>
+          <div><div class="field-label">Hook</div><div class="field-value" contenteditable="true">"¿Cuánto tiempo más vas a esperar para empezar?"</div></div>
+          <div><div class="field-label">Caption</div><div class="field-value" contenteditable="true">Cada mes que pasa sin un plan es un mes que le regalas a la incertidumbre. Hoy puedes cambiar eso. Escríbeme y empezamos.</div></div>
         </div>
-        <div class="trend-note" contenteditable="true">Mayor potencial viral del mes. Identidad + transformación = combinación que conecta profundo.</div>
-      </div>
-    </div>
- 
-    <div class="card">
-      <div class="card-day"><div class="day-name">Viernes</div><div class="day-date" contenteditable="true">18</div><div class="day-month">Abr</div></div>
-      <div class="card-body">
-        <div class="card-top"><span class="badge badge-reel">Reel</span><span class="badge badge-trend">Trend 4</span><span class="role">Alcance</span></div>
-        <div class="card-title" contenteditable="true">Trend 4</div>
-        <div class="card-fields">
-          <div><div class="field-label">Idea</div><div class="field-value" contenteditable="true">5 hábitos que construyen tu mejor vida — fit + finanzas + bienestar</div></div>
-          <div><div class="field-label">Caption</div><div class="field-value" contenteditable="true">No son secretos. Son decisiones que tomas (o no) cada día. ¿Cuál ya tienes? ¿Cuál te falta? Cuéntame abajo.</div></div>
-        </div>
-        <div class="trend-note" contenteditable="true">Cierre de mes con energía positiva. Conecta el universo fit + finanzas + bienestar de Ogui.</div>
       </div>
     </div>
   </div>
- 
+
   <!-- STRATEGY -->
   <div class="strategy">
     <div class="strategy-header">
       <h2>Estrategia detrás del orden</h2>
-      <p contenteditable="true">La lógica: enganchar emocionalmente → educar → convertir. Lun/Mié/Vie = Reels de impacto. Mar = Post educativo con saves. Jue = Trend para alcance.</p>
+      <p contenteditable="true">Lun = Reel · Mar = Post · Mié = Trend · Jue = Post · Vie = Reel. Enganchar → Educar → Convertir. Nunca dos tonos iguales seguidos.</p>
     </div>
     <div class="strategy-grid">
       <div class="s-card">
-        <div class="s-card-label">Estructura semanal</div>
-        <h3 contenteditable="true">Lun · Mié · Vie = Reel &nbsp;|&nbsp; Mar = Post &nbsp;|&nbsp; Jue = Trend</h3>
-        <p contenteditable="true">Los reels del lunes arrancan la semana con impacto emocional. El post del martes educa y genera saves. Los reels de miércoles y viernes mantienen presencia y convierten. El trend del jueves amplía alcance sin interrumpir el flujo narrativo.</p>
+        <div class="s-card-label">Estructura fija</div>
+        <h3 contenteditable="true">Lun · Mié · Vie = Reel &nbsp;|&nbsp; Mar · Jue = Post</h3>
+        <p contenteditable="true">El trend siempre el miércoles — pico mid-week del algoritmo. Reels de lunes arrancan con emoción. Posts de martes y jueves educan y generan saves. Reel del viernes cierra con conversión o inspiración.</p>
       </div>
       <div class="s-card">
-        <div class="s-card-label">Captions mejorados</div>
-        <h3 contenteditable="true">Primera línea = gancho que detiene el scroll</h3>
-        <p contenteditable="true">Cada caption arranca con una pregunta, dato o afirmación de tensión. El cuerpo va al punto sin rodeos. Siempre cierra con un CTA claro y específico: escríbeme RETIRO, guarda esto, mándaselo. Un solo CTA por post.</p>
+        <div class="s-card-label">Captions</div>
+        <h3 contenteditable="true">Primera línea = gancho · Cierre = CTA específico</h3>
+        <p contenteditable="true">Cada caption abre con pregunta, dato o afirmación de tensión. Cuerpo directo sin rodeos. Cierra siempre con un solo CTA: escríbeme RETIRO, guarda esto, mándaselo. Un CTA por post.</p>
       </div>
       <div class="s-card">
-        <div class="s-card-label">Semanas 1–2</div>
-        <h3 contenteditable="true">Establecer voz y primer intento de conversión</h3>
-        <p contenteditable="true">Semana 1 de lanzamiento arranca solo jue-vie con los reels más emocionales. Semana 2 introduce el primer reel de conversión con hook de curiosidad. El trend del jueves amplía alcance sin salir del tema de la semana.</p>
+        <div class="s-card-label">Semanas 1–3</div>
+        <h3 contenteditable="true">Lanzamiento, educación y primeras conversiones</h3>
+        <p contenteditable="true">Semana 1 arranca con emoción pura. Semana 2 introduce el primer reel de conversión con hook de curiosidad. Semana 3 mezcla objeciones, bienestar y el trend de mayor potencial viral.</p>
       </div>
       <div class="s-card">
-        <div class="s-card-label">Semanas 3–4</div>
-        <h3 contenteditable="true">Objeciones, autoridad y cierre del mes</h3>
-        <p contenteditable="true">Semana 3 ataca las objeciones más frecuentes: el esposo, el seguro, la duda. El trend refuerza el tema del post. Semana 4 cierra con historia personal, quote aspiracional y los trends de mayor potencial viral del batch.</p>
+        <div class="s-card-label">Semanas 4–6</div>
+        <h3 contenteditable="true">Momentum, cierre y contenido emocional</h3>
+        <p contenteditable="true">Semana 4 ataca las objeciones más frecuentes antes del cierre. Semanas 5–6 cierran abril con historia personal, conexión de comunidad y los reels de mayor conversión del batch.</p>
       </div>
     </div>
     <div class="ads-section">
       <h3>Contenido con potencial para escalar a Ads</h3>
       <div class="ads-list">
-        <div class="ads-item">
-          <div class="ads-num">1</div>
-          <div class="ads-text"><strong>¿Y si ya tienes el dinero para tu retiro?</strong> — Hook de curiosidad + conversión directa. Funciona muy bien para audiencia fría.</div>
-        </div>
-        <div class="ads-item">
-          <div class="ads-num">2</div>
-          <div class="ads-text"><strong>No sé si sea la mejor decisión</strong> — Convierte exactamente en el momento de la duda. La objeción más común antes del cierre.</div>
-        </div>
-        <div class="ads-item">
-          <div class="ads-num">3</div>
-          <div class="ads-text"><strong>Necesito platicarlo con mi esposo primero</strong> — Rompe la fricción más frecuente. Ideal para retargeting de leads tibios.</div>
-        </div>
+        <div class="ads-item"><div class="ads-num">1</div><div class="ads-text"><strong>¿Y si ya tienes el dinero para tu retiro?</strong> — Hook de curiosidad + conversión directa. Funciona para audiencia fría.</div></div>
+        <div class="ads-item"><div class="ads-num">2</div><div class="ads-text"><strong>No sé si sea la mejor decisión</strong> — Convierte en el momento exacto de la duda. La objeción más común antes del cierre.</div></div>
+        <div class="ads-item"><div class="ads-num">3</div><div class="ads-text"><strong>No sacrifiques tu libertad financiera</strong> — Cierre de mes con urgencia real. Ideal para retargeting de leads tibios.</div></div>
       </div>
     </div>
   </div>
 </main>
- 
-<footer>Ogui · Calendario estratégico de contenido · Batch 1</footer>
+<footer>Ogui · Calendario estratégico de contenido · Marzo–Abril 2026</footer>
 </body>
 </html>
- 
